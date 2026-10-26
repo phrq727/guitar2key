@@ -34,7 +34,7 @@ else:
     EXE_DIR = BASE
 CONFIG_PATH = EXE_DIR / "guitar2key_config.json"
 
-MAX_SLOTS = 10
+MAX_SLOTS = 50
 DEFAULT_NAME = "Default"  
 DEADZONE_MAX = 100
 CALIB_N = 8
@@ -822,7 +822,7 @@ class App(_Base):
         hdr.grid(row=0, column=0, sticky="ew", padx=18, pady=(16, 10))
         hdr.grid_columnconfigure(2, weight=1)
         self.label(hdr, APP_NAME, 24, True).grid(row=0, column=0, sticky="w")
-        self.label(hdr, "v1.0 by Phrq", 13, False, MUTED).grid(row=0, column=1, sticky="w", padx=12)
+        self.label(hdr, "v1.0.1 by Phrq", 13, False, MUTED).grid(row=0, column=1, sticky="w", padx=12)
         self.lbl_status = self.label(hdr, "Stopped", 13, True, MUTED, width=330, height=30,
                                      corner_radius=15, fg_color=BTN)
         self.lbl_status.grid(row=0, column=3, padx=8)
@@ -1218,9 +1218,6 @@ class App(_Base):
         for (i, a), (j, b) in zip(sl, sl[1:]):
             gap = b["freq"] / a["freq"] - 1.0
             need = max(0.08, 1.5 * ((a.get("spread") or 0.03) + (b.get("spread") or 0.03)))
-            if gap < need:
-                msgs.append(f"⚠ Buttons {i + 1} and {j + 1} are too close in pitch — notes will get mixed up. "
-                            f"Choose notes further apart.")
         for i, s in enumerate(self.prof["slots"]):
             if s["freq"] and (s.get("spread") or 0) > 0.10:
                 msgs.append(f"⚠ Button {i + 1}: note is detected unreliably (±{s['spread'] * 100:.0f}%). "
